@@ -1,20 +1,54 @@
-# ULGE · Universal Language Geometry Engine
+# ULGE — Universal Language Geometry Engine
 
-An open, browser-based research playground for investigating acoustic structure in speech.
+**Can human speech reveal shared mathematical structure across languages?** ULGE is a local-first, open-source React research playground that makes the hypothesis explorable without pretending an animation is scientific proof.
 
-**Research question:** Do seemingly different speech systems reveal shared geometric or informational organization after controlled analysis?
+**Live site (once deployed):** https://michaelwave369.github.io/ULGE/
 
-ULGE starts by measuring *acoustics*, not language universals. Its visual forms are deliberately algorithmic projections of measured descriptors; they are **not evidence of a universal language shape**. Cross-language claims require balanced corpora, matched recording conditions, matched tasks and speakers, held-out languages and statistical controls.
+## What version 0.1 does
 
-## Status
+- Analyze a local audio file or record from your microphone (permission required, HTTPS or localhost).
+- Extract seven frame-based acoustic descriptors: brightness, spectral spread, low- and high-frequency proportions, spectral flatness, energy variability, and zero crossings.
+- Project those descriptors into an interactive, toroidal *illustrative geometry*. This mapping is a visualization choice, **not a discovered universal language shape**.
+- Compare two recordings as normalized acoustic vectors. The distance is descriptive, **not** a probability, a language classification, or a statistical significance test.
+- Export machine-readable feature summaries as JSON **without raw recordings**.
+- Start with two deterministic, explicitly labeled **synthetic** example signals. These are not human languages.
 
-Initial React lab scaffold in development. GitHub Pages via GitHub Actions.
+All audio analysis runs in your browser. ULGE does not upload recordings or features to a server. Do not assume exports are anonymous if the names or language metadata identify people.
 
-## Principles
+## Quick start
 
-- Evidence above aesthetics: mark synthetic examples and measured audio distinctly.
-- Local-first audio processing; no uploads to a server.
-- Document methods, limitations, and reproducible comparisons.
-- Spoken and signed languages are both language; acoustic universals would not by themselves imply linguistic universals.
+Requires Node.js 22 or a compatible recent release.
 
-MIT license. PHI369 Labs / open commons research.
+~~~bash
+npm install
+npm run dev
+npm test
+npm run build
+~~~
+
+## Method and limitations
+
+The prototype downmixes and linearly samples audio at 16 kHz, selects up to 120 1024-sample frames across a recording, applies a Hann-windowed FFT, and averages spectral measurements over non-silent frames. Energy variation is measured over sampled windows. It is a minimal DSP baseline, not a validated phonetics pipeline.
+
+A speaker's microphone, pronunciation, recording room, text, background noise, volume, and sample length can dominate these values. Two recordings cannot establish anything universal about language. Language labels are user-supplied metadata, not automatically detected labels. There is no automatic transcription, semantic embedding, phoneme recognition, or signed-language support in v0.1. A universal *spoken-acoustic* pattern would not by itself prove a universal property of all languages, including signed languages.
+
+## Research roadmap
+
+1. Ethical, documented corpus manifests with language, family, speaker metadata, license/consent, recording environment, and prompt.
+2. Reproducible per-utterance and per-frame embeddings, alongside interpretable acoustic features.
+3. Matched speaker/task/microphone controls, channel normalization, speech versus non-speech baselines, and null/permutation tests.
+4. Preregistered hypotheses and held-out **entire language families**, with uncertainty intervals and effect sizes.
+5. Independent replication and careful extensions to lexical semantics, gesture, and signed languages.
+
+## Scientific jumping-off points
+
+- Ćwiek et al. (2022), [The bouba/kiki effect is robust across cultures and writing systems](https://doi.org/10.1098/rstb.2020.0390), a behavioral study testing speakers of 25 languages. This does **not** demonstrate a universal speech geometry.
+- Coupé et al. (2019), [Different languages, similar encoding efficiency](https://doi.org/10.1126/sciadv.aaw2594), a 17-language study showing average information rates near 39 bits per second under its methodology. That does **not** establish a universal natural constant.
+
+## GitHub Actions and Pages
+
+Pull requests run tests and a production build. Merges to main deploy the validated static build through GitHub Actions. Vite uses the project base path "/ULGE/". Under **Settings → Pages**, choose **GitHub Actions** as the deployment source.
+
+## Open science
+
+MIT licensed. PHI369 Labs / an open research commons. Measurements before metaphors.

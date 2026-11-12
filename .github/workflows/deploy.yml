@@ -1,0 +1,65 @@
+name: Test and deploy ULGE to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run acoustic tests
+        run: npm test
+      - name: Build static React site
+        run: npm run build
+      - name: Upload build artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ulge-dist
+          path: dist/
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Download validated build
+        uses: actions/download-artifact@v4
+        with:
+          name: ulge-dist
+          path: dist/
+      - name: Upload to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
