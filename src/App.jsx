@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { ANALYSIS_VERSION, analyzeAudioBuffer, demoClip, DESCRIPTORS, exportableClip, featureDistance } from "./audio.js";
 import { renderScene } from "./geometry.js";
+import CorpusLab from "./CorpusLab.jsx";
 
 const LANGUAGES = [
   "Unspecified", "English", "Spanish", "French", "Arabic", "Mandarin Chinese",
@@ -269,6 +270,20 @@ function App() {
     setMessage("Synthetic example loaded: educational signal, not speech.");
   }
 
+  function useCorpusRecord(target, record) {
+    const selected = {
+      ...record,
+      id: record.id,
+      kind: record.sourceKind,
+      source: "Corpus feature summary · audio not retained",
+      audioUrl: null
+    };
+    setClips(previous => ({ ...previous, [target]: selected }));
+    setViewMode("AB");
+    setMessage("Loaded " + record.name + " into sample " + target + " from corpus features. Original audio is not retained.");
+    document.getElementById("lab")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   function exportReport() {
     const report = {
       schema: "ULGE.acoustic-comparison.v1",
@@ -293,10 +308,10 @@ function App() {
           <span>ULGE<span className="brand-sub">UNIVERSAL LANGUAGE GEOMETRY ENGINE</span></span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#lab">The Lab</a><a href="#method">Methodology</a>
+          <a href="#lab">The Lab</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
           <a href="https://github.com/MichaelWave369/ULGE" target="_blank" rel="noreferrer"><Github size={16} /> Source</a>
         </nav>
-        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.1</div>
+        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.2</div>
       </div>
     </header>
 
@@ -428,6 +443,7 @@ function App() {
           </div>
         </div>
       </section>
+      <CorpusLab clips={clips} onUseRecord={useCorpusRecord} />
     </main>
 
     <footer className="footer">

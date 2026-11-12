@@ -2,7 +2,13 @@
 
 **Can human speech reveal shared mathematical structure across languages?** ULGE is a local-first, open-source React research playground that makes the hypothesis explorable without pretending an animation is scientific proof.
 
-**Live site (once deployed):** https://michaelwave369.github.io/ULGE/
+**Live site:** https://michaelwave369.github.io/ULGE/
+
+## New in version 0.2: corpus workspace
+
+A third panel now lets you register up to 60 corpus feature records in browser memory from A/B recordings, files or JSON manifests. It includes self-reported speaker, language-family, prompt, device/channel and usage permission metadata; QC warnings; a pairwise distance map; and descriptive means within/across language, speaker and prompt labels. Export/import versioned feature-only manifests (no audio). The workspace is intentionally ephemeral until you export. All user-supplied data requires independent verification before research claims.
+
+See [Corpus protocol](docs/CORPUS_PROTOCOL.md) for controlled study design and caveats.
 
 ## What version 0.1 does
 
