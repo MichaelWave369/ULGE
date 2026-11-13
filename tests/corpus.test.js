@@ -84,3 +84,22 @@ test("unbalanced, missing speaker, permission, and prompt metadata raise flags",
   assert.match(warnings, /Prompt\/task/);
   assert.match(warnings, /Recording device/);
 });
+
+test("temporal tracks survive manifest export and import without raw audio", () => {
+  const temporalRecording = { ...demoClip("noisy"), kind: "recorded" };
+  const record = makeCorpusRecord(temporalRecording, metadata("French", "sp-9"), "clip_temporal");
+  const exported = exportCorpusManifest([record]);
+  const restored = importCorpusManifest(JSON.stringify(exported));
+  assert.deepEqual(restored[0].temporal, record.temporal);
+  assert.ok(restored[0].temporal.frames.length > 8);
+  assert.equal("audioUrl" in restored[0], false);
+  assert.equal("rawAudio" in restored[0], false);
+  assert.throws(() => validateCorpus([{ ...record, temporal: { ...record.temporal, frames: [{ ...record.temporal.frames[0], energy: -2 }] } }]), /Invalid temporal feature/);
+});
+
+test("old corpus manifests without temporal remain importable", () => {
+  const row = sample("clip_old", "English", "sp-1");
+  const manifest = exportCorpusManifest([{ ...row, temporal: undefined }]);
+  const restored = importCorpusManifest(JSON.stringify(manifest));
+  assert.equal("temporal" in restored[0], false);
+});

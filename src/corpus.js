@@ -1,4 +1,5 @@
 import { ANALYSIS_VERSION, DESCRIPTORS, featureDistance } from "./audio.js";
+import { sanitizeTemporal } from "./temporal.js";
 
 /**
  * Local-only corpus metadata and acoustic feature summaries.
@@ -66,6 +67,7 @@ export function makeCorpusRecord(clip, metadata, id) {
     features: checkFeatures(clip.features)
   };
   ensure(record.activeFrames <= record.frames, "activeFrames exceeds frames.");
+  if (clip.temporal != null) record.temporal = sanitizeTemporal(clip.temporal);
   return record;
 }
 
@@ -87,7 +89,8 @@ export function validateCorpusRecord(item) {
     name: item.name, language: item.language, kind: item.sourceKind,
     version: item.version, duration: item.duration, frames: item.frames,
     activeFrames: item.activeFrames, sampleRate: item.sampleRate,
-    originalSampleRate: item.originalSampleRate, features: item.features
+    originalSampleRate: item.originalSampleRate, features: item.features,
+    temporal: item.temporal
   }, item, item.id);
   // A synthetic example must never be reclassified as human speech on import.
   ensure(rebuilt.signalType === item.signalType, "Synthetic signal type mismatch.");

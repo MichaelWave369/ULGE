@@ -4,6 +4,8 @@
  * linguistic universals, or statistical inference are implied.
  * Audio is downmixed and linearly sampled at a common 16 kHz.
  */
+import { TEMPORAL_VERSION, sanitizeTemporal } from "./temporal.js";
+
 export const ANALYSIS_VERSION = "acoustic-v1";
 export const TARGET_RATE = 16000;
 const FRAME = 1024;
@@ -73,7 +75,7 @@ export function analyzeChannels(channels, sampleRate) {
   const targetLength = Math.floor(duration * TARGET_RATE);
   if (targetLength < FRAME) throw new Error("Recording needs at least 64 ms of audio.");
   const frameCount = Math.min(120, Math.max(1, Math.floor(targetLength / FRAME)));
-  const featureFrames = [], allRms = [];
+  const featureFrames = [], allRms = [], temporalFrames = [];
   const frame = new Float64Array(FRAME);
   const range = Math.max(0, targetLength - FRAME);
   for (let f = 0; f < frameCount; f++) {
@@ -94,7 +96,15 @@ export function analyzeChannels(channels, sampleRate) {
     }
     const rms = Math.sqrt(squares / FRAME);
     allRms.push(rms);
-    if (rms < 0.003) continue;
+    const t = clamp01((start + FRAME / 2) / targetLength);
+    if (rms < 0.003) {
+      temporalFrames.push({
+        t, active: false, energy: clamp01(rms / 0.25),
+        brightness: 0, spread: 0, low: 0, high: 0,
+        texture: 0, crossings: 0
+      });
+      continue;
+    }
     const mags = spectrum(frame);
     let total = 0, weighted = 0, low = 0, high = 0, logSum = 0, arithmetic = 0;
     const count = mags.length - 1;
@@ -112,13 +122,18 @@ export function analyzeChannels(channels, sampleRate) {
       const delta = (k * TARGET_RATE / FRAME) - centroidHz;
       variance += mags[k] * delta * delta;
     }
-    featureFrames.push({
+    const spectralFrame = {
       brightness: clamp01(centroidHz / (TARGET_RATE / 2)),
       spread: clamp01(Math.sqrt(variance / (total + EPS)) / (TARGET_RATE / 2)),
       low: clamp01(low / (total + EPS)),
       high: clamp01(high / (total + EPS)),
       texture: clamp01(Math.exp(logSum / count) / (arithmetic / count)),
       crossings: clamp01(crossings / (FRAME - 1))
+    };
+    featureFrames.push(spectralFrame);
+    temporalFrames.push({
+      t, active: true, energy: clamp01(rms / 0.25),
+      ...spectralFrame
     });
   }
   if (!featureFrames.length) throw new Error("No audible signal detected. Try a louder recording.");
@@ -132,7 +147,8 @@ export function analyzeChannels(channels, sampleRate) {
   return {
     version: ANALYSIS_VERSION, features: means, duration,
     frames: frameCount, activeFrames: featureFrames.length,
-    sampleRate: TARGET_RATE, originalSampleRate: sampleRate
+    sampleRate: TARGET_RATE, originalSampleRate: sampleRate,
+    temporal: sanitizeTemporal({ version: TEMPORAL_VERSION, frames: temporalFrames })
   };
 }
 
@@ -187,6 +203,9 @@ export function exportableClip(clip) {
   if (!clip) return null;
   const { name, language, source, kind, features, duration, frames,
     activeFrames, sampleRate, originalSampleRate, version } = clip;
-  return { name, language, source, kind, features, duration, frames,
-    activeFrames, sampleRate, originalSampleRate, version };
+  return {
+    name, language, source, kind, features, duration, frames,
+    activeFrames, sampleRate, originalSampleRate, version,
+    ...(clip.temporal ? { temporal: sanitizeTemporal(clip.temporal) } : {})
+  };
 }

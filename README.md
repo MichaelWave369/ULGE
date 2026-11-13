@@ -4,6 +4,14 @@
 
 **Live site:** https://michaelwave369.github.io/ULGE/
 
+## New in version 0.3: temporal acoustic traces
+
+ULGE preserves up to 64 time-ordered feature windows per recording, including quiet intervals. The Temporal Lab shows seven descriptive tracks along normalized recording progress, a manual inspection cursor, and a constrained 32×32 dynamic-time-warping (DTW) alignment grid. Direct and warped scores are descriptive only, not phoneme alignment, translation, language identification, or evidence of a universal speech structure.
+
+These tracks contain numeric acoustic descriptors, not waveforms. Feature exports and corpus manifests include bounded tracks when available, so they can be reloaded for sequence comparison. Metadata and audio-derived features may still identify individuals. Older v0.2 manifests without temporal data remain valid and display a missing-track notice.
+
+Read the [Temporal Acoustic Protocol](docs/TEMPORAL_PROTOCOL.md).
+
 ## New in version 0.2: corpus workspace
 
 A third panel now lets you register up to 60 corpus feature records in browser memory from A/B recordings, files or JSON manifests. It includes self-reported speaker, language-family, prompt, device/channel and usage permission metadata; QC warnings; a pairwise distance map; and descriptive means within/across language, speaker and prompt labels. Export/import versioned feature-only manifests (no audio). The workspace is intentionally ephemeral until you export. All user-supplied data requires independent verification before research claims.
