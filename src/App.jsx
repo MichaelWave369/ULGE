@@ -8,6 +8,7 @@ import {
 import { ANALYSIS_VERSION, analyzeAudioBuffer, demoClip, DESCRIPTORS, exportableClip, featureDistance } from "./audio.js";
 import { renderScene } from "./geometry.js";
 import CorpusLab from "./CorpusLab.jsx";
+import TemporalLab from "./TemporalLab.jsx";
 
 const LANGUAGES = [
   "Unspecified", "English", "Spanish", "French", "Arabic", "Mandarin Chinese",
@@ -308,10 +309,10 @@ function App() {
           <span>ULGE<span className="brand-sub">UNIVERSAL LANGUAGE GEOMETRY ENGINE</span></span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#lab">The Lab</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
+          <a href="#lab">The Lab</a><a href="#temporal">Temporal Lab</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
           <a href="https://github.com/MichaelWave369/ULGE" target="_blank" rel="noreferrer"><Github size={16} /> Source</a>
         </nav>
-        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.2</div>
+        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.3</div>
       </div>
     </header>
 
@@ -403,7 +404,7 @@ function App() {
             </div>
 
             <aside className="panel analysis-panel">
-              <div className="panel-head"><div><Fingerprint size={17} /><h3>Feature fingerprint</h3></div><span className="tiny-version">DSP / V1</span></div>
+              <div className="panel-head"><div><Fingerprint size={17} /><h3>Feature fingerprint</h3></div><span className="tiny-version">DSP / V1 + TEMPORAL V1</span></div>
               <p className="panel-intro">Normalized descriptors from each recording. These are acoustic measurements, not semantic properties.</p>
               <div className="bar-legend"><span><i className="legend-dot a" /> A · Cyan</span><span><i className="legend-dot b" /> B · Violet</span></div>
               <div className="metrics">
@@ -416,11 +417,13 @@ function App() {
                 <p>0 = identical descriptor vectors. This is not a language-similarity score or statistical evidence.</p>
               </div>
               <button className="export-button" type="button" onClick={exportReport}><Download size={17} /> Export analysis JSON</button>
-              <span className="export-note">Exports features and labels, never the raw audio.</span>
+              <span className="export-note">Exports acoustic features and temporal tracks, never the raw audio.</span>
             </aside>
           </div>
         </div>
       </section>
+
+      <TemporalLab clipA={a} clipB={b} />
 
       <section className="method-section container" id="method">
         <div className="section-heading">
