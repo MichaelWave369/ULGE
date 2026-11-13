@@ -10,6 +10,7 @@ import { renderScene } from "./geometry.js";
 import CorpusLab from "./CorpusLab.jsx";
 import TemporalLab from "./TemporalLab.jsx";
 import SpectrumLab from "./SpectrumLab.jsx";
+import ValidationStudio from "./ValidationStudio.jsx";
 import { analyzeSpectrumAudioBuffer, analyzeSpectrumChannels } from "./spectrum.js";
 import { syntheticSignal } from "./audio.js";
 
@@ -319,10 +320,10 @@ function App() {
           <span>ULGE<span className="brand-sub">UNIVERSAL LANGUAGE GEOMETRY ENGINE</span></span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#lab">The Lab</a><a href="#temporal">Temporal Lab</a><a href="#spectrogram">Spectrogram</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
+          <a href="#lab">The Lab</a><a href="#temporal">Temporal Lab</a><a href="#spectrogram">Spectrogram</a><a href="#validation">Validation</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
           <a href="https://github.com/MichaelWave369/ULGE" target="_blank" rel="noreferrer"><Github size={16} /> Source</a>
         </nav>
-        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.4</div>
+        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.5</div>
       </div>
     </header>
 
@@ -435,6 +436,7 @@ function App() {
 
       <TemporalLab clipA={a} clipB={b} />
       <SpectrumLab a={a} b={b} />
+      <ValidationStudio a={a} b={b} />
 
       <section className="method-section container" id="method">
         <div className="section-heading">
