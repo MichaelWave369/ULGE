@@ -1,0 +1,77 @@
+
+.benchmark-section{background:linear-gradient(180deg,#0d1623,#09111d);padding:78px 0;border-top:1px solid #293d51;border-bottom:1px solid #2c4051}
+.benchmark-lead{color:#9cb1c5;font-size:13px;line-height:1.9;max-width:940px;margin:0 0 22px}
+.benchmark-privacy,.benchmark-science-note{border:1px solid #3c5a69;background:#152637;padding:14px 17px;display:flex;align-items:flex-start;gap:10px;border-radius:8px;color:#9fb8c8}
+.benchmark-privacy svg,.benchmark-science-note svg{color:#92d7e2;flex:none;margin-top:3px}
+.benchmark-privacy p,.benchmark-science-note p{font-size:11px;line-height:1.7;margin:0}
+.benchmark-privacy strong,.benchmark-science-note strong{color:#d6edf7}
+.benchmark-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:19px}
+.benchmark-panel,.benchmark-manifest-panel,.benchmark-results{min-width:0;background:#0f1c2b;border:1px solid #2c4256;border-radius:10px;padding:20px}
+.benchmark-head,.benchmark-results-top,.benchmark-manifest-title{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.benchmark-head>div,.benchmark-results-top>div{display:flex;gap:9px;align-items:center;color:#81dce8}
+.benchmark-head h3,.benchmark-results-top h3{color:#daeaf5;font-size:13px;margin:0}
+.benchmark-head>span{font:9px "DM Mono",monospace;color:#85afc0;white-space:nowrap}
+.benchmark-panel>p{font-size:11px;color:#92aabd;line-height:1.7;margin:15px 0}
+.benchmark-buttons{display:flex;gap:9px;flex-wrap:wrap}
+.benchmark-buttons button,.benchmark-results-top button{border:1px solid #3c6379;border-radius:6px;padding:10px 13px;background:#152d40;color:#c0deed;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px;font-weight:650}
+.benchmark-buttons .benchmark-primary{background:#1c495b;color:#bcf4fc;border-color:#4c9cb0}
+.benchmark-buttons button:hover:not(:disabled),.benchmark-results-top button:hover:not(:disabled){background:#245064}
+.benchmark-file-readout{margin-top:18px;background:#0b1725;border:1px solid #2b4557;border-radius:7px;padding:13px}
+.benchmark-file-readout span{display:block;color:#88aabe;font:9px "DM Mono",monospace;letter-spacing:1px}
+.benchmark-file-readout strong{font-size:13px;color:#d9ecf6;display:block;margin-top:6px;overflow-wrap:anywhere}
+.benchmark-file-readout small{font-size:10px;color:#92aab9;line-height:1.7;display:block;margin-top:6px;overflow-wrap:anywhere}
+.benchmark-run-panel{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:14px;background:#142d3f;border:1px solid #315f74;border-radius:9px;padding:17px 20px}
+.benchmark-run-panel strong{color:#d9eaf5;font-size:13px;display:block}
+.benchmark-run-panel span{font-size:10px;color:#a2bfce;display:block;margin-top:6px}
+.benchmark-run-panel button{display:flex;align-items:center;gap:8px;padding:12px 17px;background:#67cfe0;color:#0b2531;border:1px solid #8ceafa;border-radius:7px;font-size:12px;font-weight:800}
+.benchmark-run-panel button:hover:not(:disabled){background:#a0eff8}
+.benchmark-run-panel button:disabled{opacity:.52;cursor:not-allowed}
+.benchmark-progress,.benchmark-error{display:flex;align-items:flex-start;gap:8px;margin-top:13px;padding:10px 14px;font-size:11px;line-height:1.7;border:1px solid #365567;border-radius:6px;color:#a3c7d9;background:#162c39;overflow-wrap:anywhere}
+.benchmark-error{background:#342129;border-color:#764a5a;color:#ffc4c7}
+.benchmark-progress svg,.benchmark-error svg{flex:none;margin-top:2px}
+.benchmark-message{font-size:10px;color:#8ea9bd;margin:12px 0 20px;line-height:1.6}
+.benchmark-manifest-panel{margin-top:16px}
+.benchmark-manifest-title strong{font-size:13px;color:#deebf7}
+.benchmark-manifest-title span{color:#8eabba;font-size:10px}
+.benchmark-table-scroll{max-width:100%;overflow-x:auto;margin-top:16px;border:1px solid #2a4054;border-radius:7px}
+.benchmark-table{width:100%;min-width:590px;border-collapse:collapse;font-size:10px;color:#acbfce}
+.benchmark-table th{text-align:left;background:#182b3e;font:9px "DM Mono",monospace;color:#92b2c3;padding:13px 12px;white-space:nowrap}
+.benchmark-table td{padding:12px;border-top:1px solid #2c4052;line-height:1.5;max-width:220px;overflow-wrap:anywhere}
+.benchmark-row-select{border:0;background:transparent;color:#c3ecf4;padding:2px 0;font-size:11px;overflow-wrap:anywhere;text-align:left}
+.benchmark-row-select:hover{text-decoration:underline}
+.benchmark-row-status{font:9px "DM Mono",monospace;letter-spacing:.5px;padding:5px 7px;border-radius:4px;display:inline-block;white-space:nowrap}
+.benchmark-row-status.scored{color:#92e8c3;background:#183b33}
+.benchmark-row-status.matched{color:#8bc9e7;background:#17364b}
+.benchmark-row-status.missing,.benchmark-row-status.failed{color:#ecc19f;background:#3b302b}
+.benchmark-selected{margin-top:14px;padding:14px;background:#132538;border:1px solid #34576b;border-radius:7px;font-size:11px;color:#a9bfce}
+.benchmark-selected>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.benchmark-selected>div:first-child strong{color:#cdebf4;overflow-wrap:anywhere}
+.benchmark-selected button{border:0;background:transparent;color:#95d9e9;font-size:10px}
+.benchmark-selected p{margin-bottom:0;line-height:1.6;overflow-wrap:anywhere}
+.benchmark-selected-metrics{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:13px}
+.benchmark-selected-metrics strong{color:#c4e7ef}
+.benchmark-results{margin-top:16px}
+.benchmark-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.benchmark-metric{padding:15px;background:#14293b;border:1px solid #315167;border-radius:7px;min-width:0}
+.benchmark-metric span{display:block;color:#92b3c6;font:9px "DM Mono",monospace}
+.benchmark-metric strong{display:block;font-size:25px;color:#b4e9f1;margin-top:8px;letter-spacing:-.7px;overflow-wrap:anywhere}
+.benchmark-metric small{display:block;color:#88a5b8;font-size:10px;margin-top:6px;line-height:1.6}
+.benchmark-empty{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:34px 15px;color:#8daabf;text-align:center;border:1px dashed #35546a;border-radius:8px;background:#0c1a2a;margin-top:15px;font-size:11px}
+.benchmark-empty strong{color:#d4e7f0}
+.benchmark-empty span{max-width:500px;line-height:1.7}
+.benchmark-slice-controls{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:25px;flex-wrap:wrap}
+.benchmark-slice-controls strong{font-size:12px;color:#d3e7f3;display:block}
+.benchmark-slice-controls span{display:block;color:#8ea9bd;margin-top:5px;font-size:10px;line-height:1.6}
+.benchmark-slice-controls label{color:#90aabf;display:flex;align-items:center;gap:8px;font:9px "DM Mono",monospace}
+.benchmark-slice-controls select{border:1px solid #3f657b;border-radius:5px;background:#142c3e;color:#d5f2f7;padding:9px;font-size:11px}
+.benchmark-table-note{color:#8da7bc;font-size:10px;line-height:1.7}
+.benchmark-issues{background:#2c2026;border:1px solid #674750;padding:15px;margin-top:18px;border-radius:8px}
+.benchmark-issues strong{color:#ffd3ca;font-size:12px}
+.benchmark-issues p{color:#e9c0c1;font-size:10px;line-height:1.6;margin:9px 0 0;overflow-wrap:anywhere}
+.benchmark-issues p span{color:#ffe2ce}
+.benchmark-science-note{margin-top:17px;background:#172735}
+.benchmark-documentation{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#91b1c2;font-size:11px;line-height:1.7;margin:18px 0 0}
+.benchmark-documentation svg{color:#8bcfe0}
+.benchmark-documentation a{display:inline-flex;gap:5px;align-items:center;color:#a3e6ef}
+@media(max-width:880px){.benchmark-grid{grid-template-columns:1fr}.benchmark-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:610px){.benchmark-section{padding:54px 0}.benchmark-panel,.benchmark-results,.benchmark-manifest-panel{padding:15px}.benchmark-summary{grid-template-columns:1fr 1fr}.benchmark-metric strong{font-size:20px}.benchmark-run-panel{align-items:stretch}.benchmark-run-panel button{width:100%;justify-content:center}}

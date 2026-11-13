@@ -4,6 +4,16 @@
 
 **Live site:** https://michaelwave369.github.io/ULGE/
 
+## New in version 0.6: Real Speech Benchmark Lab
+
+ULGE now includes a **local batch benchmark runner** for actual, independently annotated recordings. Nothing is supplied or scored by default. The versioned `ULGE.real-speech-benchmark.v1` manifest lists each audio filename, language, family, pseudonymous speaker, device, prompt, usage-rights claim, annotation source, and the **specific** pitch or event task to evaluate.
+
+Download the deliberately **empty** template, follow [the benchmark protocol](docs/BENCHMARK_PROTOCOL.md), add your own appropriately licensed/consented speech recordings and independently reviewed annotations, and select matching local audio files (up to 24 files; 25 MB each and 160 MB total). The analyzer processes at most the **first 20 seconds** of each file, displaying missing files and invalid references as explicit issues.
+
+The dashboard reports **per-file** pitch voicing F1, pitch errors and reference-event precision/recall, plus descriptive group slices by language, language family, speaker, device, prompt, or event type. Aggregate voicing/event F1 pools reference counts; pitch error is an unweighted *mean of per-clip medians* and is labeled accordingly. There are no statistical significance tests, held-out splits, confidence intervals, or causality claims.
+
+Audio processing stays browser-local, and only *derived scores* and self-reported metadata are exported. **Filenames, speakers and features can still identify people.** The app does not authenticate annotation sources or establish that any language universals exist. UI currently keeps the dataset only in memory until you export and does not redistribute clips. The existing two-sample and corpus tools remain available.
+
 ## New in version 0.5: measurement validation and annotation scoring
 
 The Validation Studio introduces a **deterministic synthetic reference suite** with known clean-tone frequencies and timed amplitude pulses. These controls go through the real spectral analyzer. Failures remain visible; synthetic successes are **not** claims of pitch accuracy on human speech.
