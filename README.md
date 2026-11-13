@@ -4,6 +4,18 @@
 
 **Live site:** https://michaelwave369.github.io/ULGE/
 
+## New in version 0.5: measurement validation and annotation scoring
+
+The Validation Studio introduces a **deterministic synthetic reference suite** with known clean-tone frequencies and timed amplitude pulses. These controls go through the real spectral analyzer. Failures remain visible; synthetic successes are **not** claims of pitch accuracy on human speech.
+
+You can also import an independent **local JSON annotation** for either current A/B clip. The schema supports timestamped known pitch (Hz or null for unvoiced) and event timestamps. The interface reports voiced/unvoiced agreement, pitch error in cents for jointly voiced reference points, and one-to-one event precision/recall with an explicit ±90ms matching tolerance. It displays detected vs annotated event timelines and includes a template generator plus feature-only score export.
+
+The pitch estimator now uses sub-lag parabolic interpolation around its autocorrelation peak to reduce frequency quantization for clean periodic signals. This does **not** solve octave errors or validate natural speech pitch.
+
+All annotation data remains in browser memory, is tied to the exact clip it was imported for, and is never uploaded. Imported metadata and derived data may still identify speakers. Older spectral data may lack the new pitchMethod field. No annotated human dataset is bundled and this release **does not assert real-speech accuracy** without actual independent labels.
+
+See [Validation Protocol](docs/VALIDATION_PROTOCOL.md).
+
 ## New in version 0.4: 10 ms-hop spectrogram, pitch and rhythm candidates
 
 A new Spectral Lab computes log-frequency spectrograms from 64ms Hann-windowed FFTs, one every 10ms across **only the first 20 seconds** of a recording (clearly flagged if truncated). The graph displays 40 frequency bands (80–8000 Hz) across 160 compact time columns and normalizes spectrogram intensity **within each recording**. Thus colors cannot compare absolute loudness across speakers or microphones.

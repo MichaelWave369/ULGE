@@ -4,7 +4,7 @@
  * Pitch: rough windowed normalized autocorrelation, not phoneme/formant analysis.
  * Rhythm: envelope peak candidates, NEVER claimed as syllable counts.
  */
-export const SPECTRAL_VERSION = "spectral-v1";
+export const SPECTRAL_VERSION = "spectral-v2";
 export const RATE = 16000;
 export const FFT_SIZE = 1024;
 export const HOP_SIZE = 160;
@@ -81,7 +81,19 @@ export function estimatePitch(frame, sampleRate=RATE) {
       bestLag=lag;bestScore=scores[lag];break;
     }
   }
-  const hz=effectiveRate/bestLag;
+  // Parabolic interpolation gives sub-sample lag precision, reducing
+  // integer-lag quantization on clean periodic signals. This does NOT
+  // correct octave errors or guarantee pitch accuracy on real speech.
+  let refinedLag=bestLag;
+  if(bestLag>minLag && bestLag<maxLag) {
+    const left=scores[bestLag-1],center=scores[bestLag],right=scores[bestLag+1];
+    const denominator=left-2*center+right;
+    if(Number.isFinite(denominator)&&Math.abs(denominator)>1e-10) {
+      const offset=0.5*(left-right)/denominator;
+      if(Number.isFinite(offset))refinedLag+=Math.max(-0.5,Math.min(0.5,offset));
+    }
+  }
+  const hz=effectiveRate/refinedLag;
   if(hz<70 || hz>420 || !Number.isFinite(hz))return null;
   return Math.round(hz*10)/10;
 }
@@ -137,6 +149,7 @@ function summarizeWindows(windows,seconds,sourceDuration,sourceRate,peakEvents) 
   const voiced=windows.map(row=>row.pitch).filter(value=>value!==null);
   return {
     version:SPECTRAL_VERSION,
+    pitchMethod:"normalized-autocorrelation-with-parabolic-lag-v2",
     sampleRate:RATE,
     sourceSampleRate:sourceRate,
     frameSamples:FFT_SIZE,

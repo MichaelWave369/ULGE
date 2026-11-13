@@ -61,3 +61,12 @@ test("same deterministic waveform produces same output",()=>{
   const second=analyzeSpectrumChannels(x,16000);
   assert.deepEqual(first,second);
 });
+
+test("fractional-lag refinement resolves a non-integer-period sine tone",()=>{
+  const hz=233.7;
+  const report=analyzeSpectrumChannels(tone(hz,1),16000);
+  assert.equal(report.version,"spectral-v2");
+  assert.match(report.pitchMethod,/parabolic/);
+  assert.ok(report.pitchMedianHz!==null);
+  assert.ok(Math.abs(report.pitchMedianHz-hz)<4,JSON.stringify(report.pitchMedianHz));
+});
