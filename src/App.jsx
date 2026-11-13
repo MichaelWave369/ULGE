@@ -9,6 +9,15 @@ import { ANALYSIS_VERSION, analyzeAudioBuffer, demoClip, DESCRIPTORS, exportable
 import { renderScene } from "./geometry.js";
 import CorpusLab from "./CorpusLab.jsx";
 import TemporalLab from "./TemporalLab.jsx";
+import SpectrumLab from "./SpectrumLab.jsx";
+import { analyzeSpectrumAudioBuffer, analyzeSpectrumChannels } from "./spectrum.js";
+import { syntheticSignal } from "./audio.js";
+
+function demoWithSpectrum(kind) {
+  const clip = demoClip(kind);
+  const signal = syntheticSignal(kind);
+  return { ...clip, spectral: analyzeSpectrumChannels(signal.channels, signal.sampleRate) };
+}
 
 const LANGUAGES = [
   "Unspecified", "English", "Spanish", "French", "Arabic", "Mandarin Chinese",
@@ -143,7 +152,7 @@ function Metric({ descriptor, a, b }) {
 }
 
 function App() {
-  const [clips, setClips] = useState(() => ({ A: demoClip("harmonic"), B: demoClip("noisy") }));
+  const [clips, setClips] = useState(() => ({ A: demoWithSpectrum("harmonic"), B: demoWithSpectrum("noisy") }));
   const [slot, setSlot] = useState("A");
   const [language, setLanguage] = useState("Unspecified");
   const [viewMode, setViewMode] = useState("AB");
@@ -184,10 +193,11 @@ function App() {
       const bytes = await blob.arrayBuffer();
       const buffer = await context.decodeAudioData(bytes);
       const summary = analyzeAudioBuffer(buffer);
+      const spectral = analyzeSpectrumAudioBuffer(buffer);
       const url = URL.createObjectURL(blob);
       urls.current.add(url);
       insertClip(target, {
-        ...summary, id: String(Date.now()), name: label,
+        ...summary, spectral, id: String(Date.now()), name: label,
         language: lang, source, kind, audioUrl: url
       });
     } finally {
@@ -267,7 +277,7 @@ function App() {
   }
 
   function loadSynthetic() {
-    insertClip(slot, demoClip(slot === "A" ? "harmonic" : "noisy"));
+    insertClip(slot, demoWithSpectrum(slot === "A" ? "harmonic" : "noisy"));
     setMessage("Synthetic example loaded: educational signal, not speech.");
   }
 
@@ -309,10 +319,10 @@ function App() {
           <span>ULGE<span className="brand-sub">UNIVERSAL LANGUAGE GEOMETRY ENGINE</span></span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#lab">The Lab</a><a href="#temporal">Temporal Lab</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
+          <a href="#lab">The Lab</a><a href="#temporal">Temporal Lab</a><a href="#spectrogram">Spectrogram</a><a href="#corpus">Corpus Lab</a><a href="#method">Methodology</a>
           <a href="https://github.com/MichaelWave369/ULGE" target="_blank" rel="noreferrer"><Github size={16} /> Source</a>
         </nav>
-        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.3</div>
+        <div className="nav-status"><span className="live-dot" /> OPEN RESEARCH · V0.4</div>
       </div>
     </header>
 
@@ -424,6 +434,7 @@ function App() {
       </section>
 
       <TemporalLab clipA={a} clipB={b} />
+      <SpectrumLab a={a} b={b} />
 
       <section className="method-section container" id="method">
         <div className="section-heading">

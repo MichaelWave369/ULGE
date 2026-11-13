@@ -4,6 +4,14 @@
 
 **Live site:** https://michaelwave369.github.io/ULGE/
 
+## New in version 0.4: 10 ms-hop spectrogram, pitch and rhythm candidates
+
+A new Spectral Lab computes log-frequency spectrograms from 64ms Hann-windowed FFTs, one every 10ms across **only the first 20 seconds** of a recording (clearly flagged if truncated). The graph displays 40 frequency bands (80–8000 Hz) across 160 compact time columns and normalizes spectrogram intensity **within each recording**. Thus colors cannot compare absolute loudness across speakers or microphones.
+
+A basic normalized-autocorrelation pitch tracker estimates tentative 70–420 Hz voice pitches and leaves unvoiced frames blank. A smoothed-RMS envelope marks **acoustic peak candidates**, which must NOT be mistaken for syllable counts. Comparison of unrelated recordings is still exploratory; this engine does not transcribe or recognize languages or discover universal geometry. Spectral A/B JSON export includes numeric summaries only, not raw audio. v0.2 corpus manifests remain intact; spectrum matrices are not added to the corpus manifest, to avoid surprising larger/potentially identifying exports.
+
+See [Spectral Protocol](docs/SPECTRAL_PROTOCOL.md) for assumptions, caveats, and controlled test design.
+
 ## New in version 0.3: temporal acoustic traces
 
 ULGE preserves up to 64 time-ordered feature windows per recording, including quiet intervals. The Temporal Lab shows seven descriptive tracks along normalized recording progress, a manual inspection cursor, and a constrained 32×32 dynamic-time-warping (DTW) alignment grid. Direct and warped scores are descriptive only, not phoneme alignment, translation, language identification, or evidence of a universal speech structure.
